@@ -22,14 +22,14 @@ public class CustomerRepositoryImp implements CustomerRepository {
 
 	@Override
 	public Customer getSearch(Map<String,Object> parametersJson) {
-		Customer o = sqlHelper.getSearch("dbo.customer_search", parametersJson, new CustomerSearchRowMapper());
+		Customer o = sqlHelper.getSearch("customer_search", parametersJson, new CustomerSearchRowMapper());
 
 		return o;
 	}
 
 	@Override
 	public List<Customer> getSearch(Map<String,Object> parametersJson, Pagination pagination) {
-		List<Customer> l = sqlHelper.getSearch("dbo.customer_search", parametersJson, pagination, new CustomerSearchRowMapper());
+		List<Customer> l = sqlHelper.getSearch("customer_search", parametersJson, pagination, new CustomerSearchRowMapper());
 
 		return l;
 	}
@@ -54,7 +54,7 @@ public class CustomerRepositoryImp implements CustomerRepository {
 
 	@Override
 	public List<Customer> getFindAll(Map<String,Object> parametersJson, Pagination pagination) {
-		List<Customer> l = sqlHelper.getFindAll("dbo.customer_find_all", parametersJson, pagination, new CustomerFindAllRowMapper());
+		List<Customer> l = sqlHelper.getFindAll("customer_find_all", parametersJson, pagination, new CustomerFindAllRowMapper());
 
 		return l;
 	}
@@ -81,7 +81,7 @@ public class CustomerRepositoryImp implements CustomerRepository {
 	public void setInsertUpdate(Customer o) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
-		parameters.put("id", o.getId());
+		parameters.put("id_out", o.getId());
 		parameters.put("title", o.getTitle());
 		parameters.put("comment", o.getComment());
 		parameters.put("amount_sell", o.getAmountSell());
@@ -90,7 +90,7 @@ public class CustomerRepositoryImp implements CustomerRepository {
 		parameters.put("register_datetime", o.getRegisterDatetime());
 		parameters.put("active", o.getActive());
 
-		int id = sqlHelper.setInsertUpdate("dbo.customer_insert_update", parameters);
+		int id = sqlHelper.setInsertUpdate("customer_insert_update", parameters);
 
 		o.setId(id);
 	}

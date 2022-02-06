@@ -9,7 +9,7 @@ CREATE PROCEDURE `customer_find_all`
 	in order_by varchar(128),
 	inout total_registers int
 )
--- CALL customer_find_all('{"id":1,"comment":"Empresa"}',1,10,'',@total_registers);
+-- CALL customer_find_all('{"comment":"tienda"}',1,10,'',@total_registers);
 BEGIN
 
 	DECLARE sql_body varchar(5500); DECLARE sql_join varchar(1000); DECLARE sql_where varchar(1500);
@@ -86,7 +86,20 @@ BEGIN
 
 	-- EXECUTE SQL
 	BEGIN
+		SET total_registers = 0;
+    
 		SET @sql = CONCAT(sql_body,sql_join,sql_where,order_by);
+
+		IF page_active > 0 THEN
+			SET @sql_count = CONCAT("SELECT Count(1)",sql_join,sql_where," into @total_registers_out");
+
+			PREPARE stmt_count from @sql_count;
+			Execute stmt_count;
+			Deallocate PREPARE stmt_count;    
+
+			SET total_registers = @total_registers_out;
+            SET @sql = Concat(@sql," Limit ",page_start,',',show_quantity);
+        END IF;
 
 		-- SELECT @sql
 
@@ -95,6 +108,3 @@ BEGIN
 		DEALLOCATE PREPARE stmt;
 	END;
 END;
-
-
-

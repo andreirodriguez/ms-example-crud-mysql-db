@@ -1,6 +1,7 @@
 package pe.example.customers.service.implementation;
 
 import java.util.List;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class CustomerServiceImp implements CustomerService {
 		return customerRepository.getSearch(parameters);
 	}
 
+	@Override
 	public List<Customer> getSelect(int id, Pagination pagination) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
@@ -35,6 +37,7 @@ public class CustomerServiceImp implements CustomerService {
 		return customerRepository.getSearch(parameters, pagination);
 	}
 
+	@Override
 	public List<Customer> getList(int id, Pagination pagination) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 
@@ -43,13 +46,19 @@ public class CustomerServiceImp implements CustomerService {
 		return customerRepository.getFindAll(parameters, pagination);
 	}
 
+	@Override
 	public void setRegister(Customer o) {
+		o.setRegisterDatetime(new Date());
+		o.setActive(true);
+		
 		customerRepository.setInsertUpdate(o);
 	}
 
+	@Override
 	public void setUpdate(int id,Customer o) {
 		o.setId(id);
-
+		o.setRegisterDatetime(new Date());
+		
 		customerRepository.setInsertUpdate(o);
 	}
 

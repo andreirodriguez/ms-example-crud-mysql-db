@@ -71,7 +71,7 @@ public class SQLHelperImp implements SQLHelper {
 		
 		Map<String, Object> result = jdbc.execute(parameters);
 		
-		return (int)result.get("id");
+		return (int)result.get("id_out");
 	}	
 	
 	@Override
@@ -97,22 +97,14 @@ public class SQLHelperImp implements SQLHelper {
 	
 	private SimpleJdbcCall getSimpleJdbc(String procedure)
 	{		
-		String[] schemaMethod = procedure.split("\\.");
-		String schema = schemaMethod[0];
-		String methodSQL = schemaMethod[1]; 
-		
-		SimpleJdbcCall jdbc = new SimpleJdbcCall(jdbcTemplate.getDataSource()).withSchemaName(schema).withProcedureName(methodSQL);
+		SimpleJdbcCall jdbc = new SimpleJdbcCall(jdbcTemplate.getDataSource()).withProcedureName(procedure);
 		
 		return jdbc;
 	}	
 	
 	private SimpleJdbcCall getSimpleJdbc(String procedure, RowMapper<?> rowMapper)
 	{		
-		String[] schemaMethod = procedure.split("\\.");
-		String schema = schemaMethod[0];
-		String methodSQL = schemaMethod[1]; 
-		
-		SimpleJdbcCall jdbc = new SimpleJdbcCall(jdbcTemplate.getDataSource()).withSchemaName(schema).withProcedureName(methodSQL).returningResultSet("items", rowMapper);
+		SimpleJdbcCall jdbc = new SimpleJdbcCall(jdbcTemplate.getDataSource()).withProcedureName(procedure).returningResultSet("items", rowMapper);
 		
 		return jdbc;
 	}
