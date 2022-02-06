@@ -150,7 +150,7 @@ public class SQLHelperImp implements SQLHelper {
 		{
 			keyOrderBy = text.split(" ");
 			
-			orderBy += ",[" + keyOrderBy[0] + "] " + keyOrderBy[1];  
+			orderBy += ",`" + keyOrderBy[0] + "` " + keyOrderBy[1];  
 		}
 		
 		return orderBy.substring(1);
